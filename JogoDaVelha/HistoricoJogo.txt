@@ -1,16 +1,6 @@
-jogadores:joao contra Maquina
-O Jogador 1 jogou na linha: 1 e na coluna: 1
-O Jogador2 jogou na linha 3 e na coluna 3
+#########################################
 
-O Jogador 1 jogou na linha: 2 e na coluna: 2
-O Jogador2 jogou na linha 1 e na coluna 3
+JOGADORES:
+Jogador 1: joao
+Jogador 2: maria
 
-O Jogador 1 jogou na linha: 3 e na coluna: 3
-
-O Jogador 1 jogou na linha: 3 e na coluna: 2
-O Jogador2 jogou na linha 1 e na coluna 2
-
-O Jogador 1 jogou na linha: 2 e na coluna: 1
-O Jogador2 jogou na linha 3 e na coluna 1
-
-O Jogador 1 jogou na linha: 2 e na coluna: 3

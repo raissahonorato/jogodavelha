@@ -5,15 +5,17 @@ import java.util.Random;
 
 // RAISSA HONORATO PONTES - REDES DE COMPUTADORES - 20141380300
 public class JogoDaVelha {
+	private static final String NULL = null;
 	private String nome1;
 	private String nome2;
-	private int[][] matriz = new int[3][3];
+	private String[][] matriz = new String[3][3];
 	private int contjogada;
 	private String historico ="";
 	private int resultado;
 	private int linha;
 	private int coluna;
 	private int numJogador;
+	private int ultimoJogador;
 
 	//  CONSTRUTOR. 2 JOGADORES ABRE O ARQUIVO TXT PARA GRAVAÇÃO INICIALIZA O ARRAY E OS DEMAIS  ATRIBUTOS. 
 	public JogoDaVelha(String nome1, String nome2) {
@@ -24,14 +26,7 @@ public class JogoDaVelha {
 		historico += "#########################################\n\n";
 		historico += "JOGADORES:\n";
 		historico += "Jogador 1: "+ nome1 + "\n";
-		historico += "Jogador 2: "+ nome2 +"\n\n";
-
-		
-		for (int i = 0; i < 3; i++)
-			for (int j = 0; j < 3; j++)
-				matriz[i][j] = 0;
-				
-				
+		historico += "Jogador 2: "+ nome2 +"\n\n";		
 	}
 	//#####################################################################################################
 	
@@ -41,9 +36,7 @@ public class JogoDaVelha {
 		this.nome1 = nome1;
 		this.nome2 = "Maquina";
 		historico += "jogadores:" + nome1 + " contra " + nome2;
-		for (int i = 0; i < 3; i++)
-			for (int j = 0; j < 3; j++)
-				matriz[i][j] = 0;
+
 	}
 	//######################################################################################################
 
@@ -51,76 +44,38 @@ public class JogoDaVelha {
 	
 	// VERIFICA SE EXISTE UMA POSICAO VALIDA NO TABULEIRO PARA O JOGADOR, SE SIM, MARCA A POSIÇÃO, SE NAO, RETORNA FALSE
 	public boolean jogarJogador(int numj, int lin, int col) {
-
-		if (numj == 1) {
-			historico+="\nO Jogador "+numj+" jogou na linha: "+lin+" e na coluna: "+col+"\n";
-			System.out.println(historico);
-
-			numJogador = 1;
-			if (matriz[lin-1][col-1] == 0) {
-				matriz[lin-1][col-1] = 1;
-				linha = lin;
-				coluna = col;
-				for(int i=0; i<3; i++){
-					for(int j=0; j<3; j++){
-
-						if(matriz[i][j]==-1){
-							System.out.print(" O ");
-						}
-						if(matriz[i][j]==1){
-							System.out.print(" X ");
-						}
-						if(matriz[i][j]==0){
-							System.out.print("   ");
-						}
-
-						if(j==0 || j==1)
-							System.out.print("|");
+			if (numj == 1) {
+				historico+="\nO Jogador "+numj+" jogou na linha: "+lin+" e na coluna: "+col+"\n";
+				System.out.println(historico);
+				
+				numJogador = 1;
+				matriz[linha][coluna] = "X";
+				for (int i = 0; i < 3; i++){
+					System.out.print("|  ");
+					for (int j = 0; j < 3; j++) {	
+						System.out.print(matriz[i][j] + "  |  ");
 					}
 					System.out.println();
 				}
-
-				System.out.println("\n");
 				return true;
 			}
+			else {
+				matriz[linha][coluna] = "O";	
+				for (int i = 0; i < 3; i++){
+					System.out.print("|  ");
+					for (int j = 0; j < 3; j++) {
+						System.out.print(matriz[i][j] + " | ");
+						
 
-		} 
-
-		if (numj == 2) {
-			historico+="O Jogador"+numj+" jogou na linha "+lin+" e na coluna "+col+"\n";
-			System.out.println(historico);
-
-			numJogador = 2;
-			if (matriz[lin-1][col-1] == 0) {
-				matriz[lin-1][col-1] = -1;
-				linha = lin;
-				coluna = col;
-				for(int i=0 ; i<3 ; i++){
-					for(int j=0 ; j<3 ; j++){
-
-						if(matriz[i][j]==-1){
-							System.out.print(" O ");
-						}
-						if(matriz[i][j]==1){
-							System.out.print(" X ");
-						}
-						if(matriz[i][j]==0){
-							System.out.print("   ");
-						}
-
-						if(j==0 || j==1)
-							System.out.print("|");
 					}
-					System.out.println(); 
+					System.out.println();
 				}
-
-				System.out.println("\n");
 				return true;
 			}
-		}
-		return false;
 	}
 
+
+	
 	public boolean terminou() {
 		++contjogada;
 
@@ -130,19 +85,19 @@ public class JogoDaVelha {
 			return true;
 		}
 		for(int i=0; i<3; i++){
-			if(matriz[i][0] + matriz[i][1] + matriz[i][2] == 3 ||
-					matriz[0][i] + matriz[1][i] + matriz[2][i] == 3 ||
-					matriz[0][0] + matriz[1][1] + matriz[2][2] == 3 ||
-					matriz[0][2] + matriz[1][1] + matriz[2][0] == 3) {
+			if(matriz[i][0] + matriz[i][1] + matriz[i][2] == "X" ||
+					matriz[0][i] + matriz[1][i] + matriz[2][i] == "X" ||
+					matriz[0][0] + matriz[1][1] + matriz[2][2] == "X" ||
+					matriz[0][2] + matriz[1][1] + matriz[2][0] == "X") {
 				resultado = 1;
 				ArquivoTxt(historico);
 				return true;
 			}
 
-			if(matriz[i][0] + matriz[i][1] + matriz[i][2] == -3 ||
-					matriz[0][i] + matriz[1][i] + matriz[2][i] == -3 ||
-					matriz[0][0] + matriz[1][1] + matriz[2][2] == -3 ||
-					matriz[0][2] + matriz[1][1] + matriz[2][0] == -3) {
+			if(matriz[i][0] + matriz[i][1] + matriz[i][2] == "O" ||
+					matriz[0][i] + matriz[1][i] + matriz[2][i] == "O" ||
+					matriz[0][0] + matriz[1][1] + matriz[2][2] == "O" ||
+					matriz[0][2] + matriz[1][1] + matriz[2][0] == "O") {
 				resultado = 2;
 				ArquivoTxt(historico);
 				return true;
@@ -175,11 +130,6 @@ public class JogoDaVelha {
 	//####################################################################//
 	
 	
-	
-	
-	
-	
-	
 	// GRAVA O HISTORICO DO JOGO EM UM ARQUIVO TXT
 	public void ArquivoTxt(String historico) {
 		try {
@@ -196,8 +146,7 @@ public class JogoDaVelha {
 	}
 	//####################################################################//
 	
-	
-	
+
 	
 	// RETORNA A LINHA DA ULTIMA JOGADA REALIZADA
 	public int getUltimaLinha() {
@@ -205,9 +154,7 @@ public class JogoDaVelha {
 	}
 	//###############################################//
 	
-	
-	
-	
+
 	
 	
 	// RETORNA A COLUNA DA ULTIMA JOGADA REALIZADA
@@ -225,12 +172,7 @@ public class JogoDaVelha {
 	}
 	//###############################################//
 
-	
-	
-	
-	
-	
-	
+
 	// LOCALIZA E MARCA UMA POSICAO VALIDA NO TABULEIRO PARA O JOGADOR 2
 	public void jogarMaquina() {
 		Random maquina = new Random();
